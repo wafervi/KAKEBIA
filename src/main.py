@@ -57,7 +57,7 @@ df.to_csv("data/outputs/KAKEBO2025.csv", index=False, sep=";")
 # Cerrar la conexión a la base de datos
 #engine.dispose()
 
-print("Proceso de extracción y estructuración de facturas completado exitosamente.")
+print("Proceso de extracción y estructuración del archivo ha sido completado exitosamente.")
 print("Datos guardados en el archivo 'data/outputs/KAKEBO2025.csv'.")
 
 kakebo = pd.read_csv("data/outputs/KAKEBO2025.csv", sep=";")

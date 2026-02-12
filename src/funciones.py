@@ -32,7 +32,7 @@ def estructurar_texto(texto):
         messages=[
             {
                 "role": "system",
-                "content": "Eres un experto en extracción de datos de excel. Devuelve solo el CSV sin explicaciones ni mensajes adicionales. Si no puedes extraer datos, devuelve exactamente la palabra 'error' sin comillas.",
+                "content": "Eres un experto en extracción de datos de excel. Devuelve solo el CSV sin explicaciones ni mensajes adicionales. Si no puedes extraer datos, devuelve exactamente la palabra 'Error: NO SE PUEDEN EXTRAER LOS DATOS' sin comillas.",
             },
             {
                 "role": "user",
