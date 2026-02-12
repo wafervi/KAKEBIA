@@ -1,3 +1,4 @@
 /dashboards
 /data
+!/data/**/*.dvc
 .env
