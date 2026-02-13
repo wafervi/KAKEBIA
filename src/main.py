@@ -3,6 +3,8 @@ import pandas as pd
 import os
 #from sqlalchemy import create_engine
 
+# 1- EXTRAER Y ESTRUCTURAR LOS DATOS DE LOS ARCHIVOS EXCEL QUE ESTÁN EN BRUTO EN LA CARPETA "data/raw" Y GUARDARLOS EN UN ARCHIVO CSV
+
 # Crear un DataFrame vacío para almacenar todas las facturas
 df = pd.DataFrame()
 
@@ -57,8 +59,10 @@ df.to_csv("data/outputs/KAKEBO2025.csv", index=False, sep=";")
 # Cerrar la conexión a la base de datos
 #engine.dispose()
 
-print("Proceso de extracción y estructuración del archivo ha sido completado exitosamente.")
+print("Proceso de extracción y estructuración del archivo 'KAKEBO2025.csv' ha sido completado exitosamente.")
 print("Datos guardados en el archivo 'data/outputs/KAKEBO2025.csv'.")
+
+# 2- ORGANIZAR EL ARCHIVO PARA PROCESO DE ANALÍTICA DE DATOS
 
 kakebo = pd.read_csv("data/outputs/KAKEBO2025.csv", sep=";")
 
@@ -74,4 +78,17 @@ kakebo = kakebo.dropna()
 
 kakebo.to_csv('data/outputs/kakebo2025_wrangled.csv', sep=";")
 
+kakebo_2025 = pd.read_csv("data/outputs/kakebo2025_wrangled.csv", sep=";")
+kakebo_2026 = pd.read_excel("data/raw/KAKEBO2026.xlsx", sheet_name="KAKEBO 2026")
 
+kakebo_merged = pd.merge(kakebo_2025, kakebo_2026, on="MES", how="outer", suffixes=("_2025", "_2026"))
+kakebo_2025['año'] = 2025
+kakebo_2026['año'] = 2026
+kakebo_merged = pd.concat([kakebo_2025, kakebo_2026], ignore_index=True)
+kakebo_merged = kakebo_merged.drop(columns=["Unnamed: 0"])
+kakebo_merged.to_csv('data/outputs/kakebo_merged.csv', sep=";", index=False)
+
+if os.path.exists('data/outputs/kakebo_merged.csv'):
+    print("Archivo 'kakebo_merged.csv' creado exitosamente.")
+else: 
+    print("Error: El archivo 'kakebo_merged.csv' no se ha creado.")
