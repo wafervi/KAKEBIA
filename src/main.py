@@ -80,6 +80,7 @@ kakebo.to_csv('data/outputs/kakebo2025_wrangled.csv', sep=";")
 
 kakebo_2025 = pd.read_csv("data/outputs/kakebo2025_wrangled.csv", sep=";")
 kakebo_2026 = pd.read_excel("data/raw/KAKEBO2026.xlsx", sheet_name="KAKEBO 2026")
+kakebo_2026 = kakebo_2026[(kakebo_2026 != 0).all(axis=1)]
 
 kakebo_merged = pd.merge(kakebo_2025, kakebo_2026, on="MES", how="outer", suffixes=("_2025", "_2026"))
 kakebo_2025['año'] = 2025
