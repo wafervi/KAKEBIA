@@ -1,6 +1,4 @@
 [core]
-    remote = myremote
-['remote "gdrive"']
-    url = gdrive://1TTgCatNnpHcXtohT4_ZNnhSAT-xq_UF1
-['remote "myremote"']
-    url = gdrive://1TTgCatNnpHcXtohT4_ZNnhSAT-xq_UF1
+    remote = https://drive.google.com/drive/folders/1ttgcatnnphcxtoht4_znnhsat-xq_uf1
+['remote "https://drive.google.com/drive/folders/1ttgcatnnphcxtoht4_znnhsat-xq_uf1"']
+    url = ../GDRIVE
