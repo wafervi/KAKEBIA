@@ -1,4 +1,2 @@
-[core]
-    remote = https://drive.google.com/drive/folders/1ttgcatnnphcxtoht4_znnhsat-xq_uf1
-['remote "https://drive.google.com/drive/folders/1ttgcatnnphcxtoht4_znnhsat-xq_uf1"']
-    url = ../data versions
+['remote "https://drive.google.com/drive/folders/1ttgcatnnphcxtoht4_znnhsat-xq_uf1?usp=sharing"']
+    url = ../Datasets
