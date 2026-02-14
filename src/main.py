@@ -53,18 +53,18 @@ df = pd.concat([df, df_kakebo], ignore_index=True)
 #engine = create_engine("sqlite:///facturas.db")
 
 # Guardar el DataFrame final en una bbdd sqlite, añadiendo los datos en lugar de reemplazarlos
-df.to_csv("data/outputs/KAKEBO2025.csv", index=False, sep=";")
+df.to_csv("data/processed/KAKEBO2025.csv", index=False, sep=";")
 #df.to_sql("facturas", engine, if_exists="append", index=False)
 
 # Cerrar la conexión a la base de datos
 #engine.dispose()
 
 print("Proceso de extracción y estructuración del archivo 'KAKEBO2025.csv' ha sido completado exitosamente.")
-print("Datos guardados en el archivo 'data/outputs/KAKEBO2025.csv'.")
+print("Datos guardados en el archivo 'data/processed/KAKEBO2025.csv'.")
 
 # 2- ORGANIZAR EL ARCHIVO PARA PROCESO DE ANALÍTICA DE DATOS
 
-kakebo = pd.read_csv("data/outputs/KAKEBO2025.csv", sep=";")
+kakebo = pd.read_csv("data/processed/KAKEBO2025.csv", sep=";")
 
 kakebo.drop(columns=["ITEM", "MONTO", "Unnamed: 2", "Unnamed: 3"], inplace=True)
 
@@ -76,9 +76,9 @@ kakebo.rename(columns={"Unnamed: 4": "MES", "Unnamed: 5": "MONTO"}, inplace=True
 
 kakebo = kakebo.dropna()
 
-kakebo.to_csv('data/outputs/kakebo2025_wrangled.csv', sep=";")
+kakebo.to_csv('data/processed/kakebo2025_wrangled.csv', sep=";")
 
-kakebo_2025 = pd.read_csv("data/outputs/kakebo2025_wrangled.csv", sep=";")
+kakebo_2025 = pd.read_csv("data/processed/kakebo2025_wrangled.csv", sep=";")
 kakebo_2026 = pd.read_excel("data/raw/KAKEBO2026.xlsx", sheet_name="KAKEBO 2026")
 kakebo_2026 = kakebo_2026[(kakebo_2026 != 0).all(axis=1)]
 
@@ -87,9 +87,9 @@ kakebo_2025['año'] = 2025
 kakebo_2026['año'] = 2026
 kakebo_merged = pd.concat([kakebo_2025, kakebo_2026], ignore_index=True)
 kakebo_merged = kakebo_merged.drop(columns=["Unnamed: 0"])
-kakebo_merged.to_csv('data/outputs/kakebo_merged.csv', sep=";", index=False)
+kakebo_merged.to_csv('data/processed/kakebo_merged.csv', sep=";", index=False)
 
-if os.path.exists('data/outputs/kakebo_merged.csv'):
+if os.path.exists('data/processed/kakebo_merged.csv'):
     print("Archivo 'kakebo_merged.csv' creado exitosamente.")
 else: 
     print("Error: El archivo 'kakebo_merged.csv' no se ha creado.")
