@@ -5,11 +5,11 @@ Proyecto de ciencia de datos y analítica para estructurar gastos mensuales en C
 ## 📌 Objetivos
 - Estandarizar información de gastos en formato CSV.
 - Transformar montos a formatos numéricos para análisis.
-- Generar proyecciones de egresos con un modelo base.
+- El insumo para elaborar el Dashboard para la toma de decisiones.
 
 ## 🧱 Estructura del proyecto
 - **Código fuente**: [src/funciones.py](src/funciones.py), [src/prompt.py](src/prompt.py)
-- **Datos**: [data/outputs/KAKEBO2025.csv](data/outputs/KAKEBO2025.csv), [data/outputs/kakebo2025_wrangled.csv](data/outputs/kakebo2025_wrangled.csv)
+- **Datos Crudos**: [data/outputs/KAKEBO2025.csv](data/outputs/KAKEBO2025.csv), [data/outputs/kakebo2025_wrangled.csv](data/outputs/kakebo2025_wrangled.csv)
 - **Notebook de análisis y predicción**: [notebooks/PREDICCIONES_KAKEBO.ipynb](notebooks/PREDICCIONES_KAKEBO.ipynb)
 
 ## 🔧 Flujo de trabajo
@@ -25,7 +25,7 @@ Proyecto de ciencia de datos y analítica para estructurar gastos mensuales en C
 2. Ejecuta el notebook [notebooks/PREDICCIONES_KAKEBO.ipynb](notebooks/PREDICCIONES_KAKEBO.ipynb) para reproducir el análisis y la predicción.
 
 ## 📊 Salidas esperadas
-- CSV estructurado: [data/outputs/kakebo2025_wrangled.csv](data/outputs/kakebo2025_wrangled.csv)
+- CSV estructurado: [data/outputs/kakebo_pred.csv](data/processed/kakebo_pred.csv)
 - Resultados de predicción exportados desde el notebook.
 
 ## ✅ Notas de calidad
@@ -35,3 +35,6 @@ Proyecto de ciencia de datos y analítica para estructurar gastos mensuales en C
 ## 📎 Referencias internas
 - Prompt de extracción: [`prompt`](src/prompt.py) en [src/prompt.py](src/prompt.py)
 - Funciones de procesamiento: [`extraer_texto_excel`](src/funciones.py), [`estructurar_texto`](src/funciones.py), [`csv_a_dataframe`](src/funciones.py) en [src/funciones.py](src/funciones.py)
+
+FIXME: HACER UNA BUENA ESTRUCTURACIÓN DE LOS HIPERVINCULOS, PAR QUE ESTOS FUNCIONEN ADECUADAMENTE
+TODO: ESTRUCTURAR Y REDACTAR EL TEXTO DEL README, HACERLO MÁS NATURAL
