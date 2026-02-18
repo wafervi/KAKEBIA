@@ -22,7 +22,7 @@ Proyecto de ciencia de datos y analítica para estructurar gastos mensuales en C
 - PowerBI
 - Jupyter Notebook
 - Git
-- DVC
+- Data Version Control (DVC)
 
 
 
