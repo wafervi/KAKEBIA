@@ -10,7 +10,7 @@
 -------------------------------------------------------------------------------------------------
 ## **About project**
 
-Proyecto de ciencia de datos y analítica para estructurar gastos mensuales en CSV y generar predicciones simples de egresos con regresión lineal.
+Proyecto de ciencia de datos y analítica para estructurar gastos mensuales en CSV y generar predicciones simples de egresos con regresión lineal; utilizando Inteligencia Artificial para limpiar y estructurar los Datos.
 
 ### **Languages used**
 #### **Backend**
@@ -18,6 +18,7 @@ Proyecto de ciencia de datos y analítica para estructurar gastos mensuales en C
 
 ### **Frameworks** 
 - VSCode
+- OpenAI ChatGPT (APIKEY)
 - PowerBI
 - Jupyter Notebook
 - Git
