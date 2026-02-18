@@ -18,6 +18,7 @@ Proyecto de ciencia de datos y analítica para estructurar gastos mensuales en C
 
 ### **Frameworks** 
 - VSCode
+- PowerBI
 - Jupyter Notebook
 - Git
 - DVC
