@@ -11,9 +11,9 @@
 -------------------------------------------------------------------------------------------------
 ## **About project**
 
-ES: Proyecto de ciencia de datos y analítica para estructurar gastos mensuales en CSV y generar predicciones simples de egresos con regresión lineal; utilizando Inteligencia Artificial para limpiar y estructurar los Datos.
+ES: Proyecto de ciencia de datos y analítica para estructurar gastos mensuales en CSV y generar predicciones simples de egresos con un modelo ARIMA; utilizando Inteligencia Artificial para limpiar y estructurar los Datos.
 
-EN: Data science and analytics project to structure monthly expenses in CSV and generate simple expense predictions with linear regression; using Artificial Intelligence to clean and structure the data.
+EN: Data science and analytics project to structure monthly expenses in CSV and generate simple expense predictions with ARIMA model; using Artificial Intelligence to clean and structure the data.
 
 ### **Languages used**
 #### **Backend**
