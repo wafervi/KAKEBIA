@@ -1,0 +1,22 @@
+# Python Dependencies for KAKEBIA Project
+# Project: Kakebo Analytics - Análisis de Gastos del Hogar
+# Python Version: 3.x
+
+# Data manipulation and analysis
+pandas==2.2.3
+numpy==2.2.0
+
+# Data visualization
+plotly==5.24.1
+
+# Time series analysis
+statsmodels==0.14.4
+
+# OpenAI API integration
+openai==1.90.0
+
+# Excel file processing
+openpyxl==3.1.5
+
+# Environment variables management
+python-dotenv==1.1.0
