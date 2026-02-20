@@ -6,8 +6,6 @@
 <img width="1445" height="807" alt="Captura de pantalla 2026-02-18 174010" src="https://github.com/user-attachments/assets/8d403e73-6abb-4d4c-adb4-4a62ca01a73e" />
 
 
-
-
 -------------------------------------------------------------------------------------------------
 ## **About project**
 
@@ -27,5 +25,7 @@ EN: Data science and analytics project to structure monthly expenses in CSV and 
 - Git
 - Data Version Control (DVC)
 
+### **Setup Virtual Enviroment** 
 
+File: [setup_venv](https://github.com/wafervi/KAKEBIA/blob/Master/documentation/setup%20venv/setup_venv.md)
 
