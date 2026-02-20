@@ -1,5 +1,5 @@
 outs:
-- md5: 8ae17c3595efd2148a3307cd2436f590
+- md5: dbeaf43413ebc7bda9bdaf45c400c00e
   size: 517
   hash: md5
   path: kakebo_pred2.csv
