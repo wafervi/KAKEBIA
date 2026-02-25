@@ -3,7 +3,10 @@
 -------------------------------------------------------------------------------------------------
 
 
-<img width="1445" height="807" alt="Captura de pantalla 2026-02-18 174010" src="https://github.com/user-attachments/assets/8d403e73-6abb-4d4c-adb4-4a62ca01a73e" />
+
+<img width="1326" height="741" alt="Captura de pantalla 2026-02-25 174244" src="https://github.com/user-attachments/assets/df4216b2-b540-4219-ac1a-9b6a39b5cde7" />
+
+
 
 
 -------------------------------------------------------------------------------------------------
