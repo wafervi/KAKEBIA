@@ -122,4 +122,8 @@ git commit -m "Update predictions dataset"
 
 ---
 
+**Elaborado por**: Wagner Fernández V.  
+**Especialista en Ciencia de Datos y Analítica**
+---
+
 *Documentación generada en marzo de 2026*

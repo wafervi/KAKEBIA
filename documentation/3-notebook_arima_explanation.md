@@ -121,4 +121,8 @@ Predecir los gastos mensuales futuros (2026-2027) basándose en patrones histór
 
 ---
 
+**Elaborado por**: Wagner Fernández V.  
+**Especialista en Ciencia de Datos y Analítica**
+---
+
 *Documentación generada en marzo de 2026*
