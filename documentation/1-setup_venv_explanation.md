@@ -121,7 +121,7 @@ python pipelines/main.py
 O de manera explícita usando la ruta completa:
 
 ```powershell
-"C:/Users/WAGNER FERNÁNDEZ/OneDrive - POLICIA NACIONAL DE COLOMBIA/Documents/Ciencia de Datos/PROYECTOS/KAKEBIA/.venv/Scripts/python.exe" pipelines/main.py
+"KAKEBIA/.venv/Scripts/python.exe" pipelines/main.py
 ```
 
 ---
@@ -137,3 +137,6 @@ O de manera explícita usando la ruta completa:
 
 **Elaborado por**: Wagner Fernández V.  
 **Especialista en Ciencia de Datos y Analítica**
+---
+
+*Documentación generada en marzo de 2026*
