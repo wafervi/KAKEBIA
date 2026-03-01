@@ -30,5 +30,4 @@ EN: Data science and analytics project to structure monthly expenses in CSV and 
 
 ### **Setup Virtual Enviroment** 
 
-File: [setup_venv](https://github.com/wafervi/KAKEBIA/blob/Master/documentation/setup%20venv/setup_venv.md)
-
+File: [setup_venv](https://github.com/wafervi/KAKEBIA/blob/Master/documentation/1-setup_venv_explanation.md)
