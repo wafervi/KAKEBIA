@@ -1,0 +1,5 @@
+outs:
+- md5: f2c3066a9356282d961962e4877a72ff
+  size: 374
+  hash: md5
+  path: kakebo_merged.csv
