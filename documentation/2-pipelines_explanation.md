@@ -457,8 +457,8 @@ python pipelines/main.py
 **Tecnologías:** Python, Pandas, OpenAI GPT-4o-mini
 ---
 
-**Elaborado por**: Wagner Fernández V.  
-**Especialista en Ciencia de Datos y Analítica**
+Elaborado por**: Wagner Fernández V.  
+Especialista en Ciencia de Datos y Analítica**
 ---
 
 *Documentación generada en marzo de 2026*
