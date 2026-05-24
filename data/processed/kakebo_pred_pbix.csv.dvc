@@ -1,5 +1,5 @@
 outs:
-- md5: 70edd346d8f7d927190a35d9ab6c0cee
-  size: 756
+- md5: 7a937e279ba08650cbb24f14be397abe
+  size: 793
   hash: md5
   path: kakebo_pred_pbix.csv
