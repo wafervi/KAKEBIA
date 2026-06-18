@@ -22,7 +22,7 @@ EN: Data science and analytics project to structure monthly expenses in CSV and 
 
 ### **Frameworks** 
 - VSCode
-- OpenAI ChatGPT (APIKEY)
+- OpenAI GPT (APIKEY)
 - PowerBI
 - Jupyter Notebook
 - Git
