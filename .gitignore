@@ -1,5 +1,6 @@
 /data versions
 /documentation/prompts
-/dashboards
+/dashboards/PowerBI
+/dashboards/templates
 /data/raw
 .env
