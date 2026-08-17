@@ -89,7 +89,7 @@ out.to_csv(out_path, index=False, encoding="utf-8")
 print(f"Archivo exportado: {out_path}")
 print(out.tail(15).to_string(index=False))
 
-DASHBOARD_DIR = BASE_DIR.parent / "dashboards"
+DASHBOARD_DIR = BASE_DIR.parent / "dashboards/HTML"
 DASHBOARD_DIR.mkdir(parents=True, exist_ok=True)
 
 fig = go.Figure()
