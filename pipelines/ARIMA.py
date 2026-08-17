@@ -89,6 +89,9 @@ out.to_csv(out_path, index=False, encoding="utf-8")
 print(f"Archivo exportado: {out_path}")
 print(out.tail(15).to_string(index=False))
 
+DASHBOARD_DIR = BASE_DIR.parent / "dashboards"
+DASHBOARD_DIR.mkdir(parents=True, exist_ok=True)
+
 fig = go.Figure()
 
 fig.add_trace(go.Scatter(
@@ -129,6 +132,23 @@ fig.update_layout(
     template="plotly_white",
     hovermode="x unified"
 )
+
+# - EXPORTAR EL ARCHIVO A LA CARPETA DEL DASHBOARD DE REDOHIS -
+html_path = DASHBOARD_DIR / "arima_forecast.html"
+fig.write_html(html_path)
+print(f"Gráfico exportado a: {html_path}")
+
+#exportar informe a la carpeta del dashboard de REDOHIS
+redohis_output = Path(r"C:\xampp\htdocs\REDOHIS\modules\dashboard\arima_forecast.html")
+redohis_output.parent.mkdir(parents=True, exist_ok=True)
+try:
+    shutil.copy(html_path, redohis_output)
+    print(f"Gráfico también exportado a: {redohis_output}")
+except FileNotFoundError:
+    print(f"No se pudo copiar a REDOHIS porque la ruta no existe: {redohis_output.parent}")
+
 fig.show()
 
+
+# - Envío copia a la carpeta del proyecto REDOHIS -
 
