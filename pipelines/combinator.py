@@ -1,4 +1,4 @@
-import funciones
+import functions
 import pandas as pd
 import os
 #from sqlalchemy import create_engine
@@ -27,13 +27,13 @@ for carpeta in sorted(os.listdir("./data/raw")):
         print(f"📄 Procesando archivo: {ruta_excel}")
 
         # Extraer texto del archivo excel
-        texto_no_estructurado = funciones.extraer_texto_excel(ruta_excel)
+        texto_no_estructurado = functions.extraer_texto_excel(ruta_excel)
 
         # Estructurar el texto del archivo excel
-        texto_estructurado = funciones.estructurar_texto(texto_no_estructurado)
+        texto_estructurado = functions.estructurar_texto(texto_no_estructurado)
 
         # Convertir texto estructurado en dataframe
-        df_book = funciones.csv_a_dataframe(texto_estructurado)
+        df_book = functions.csv_a_dataframe(texto_estructurado)
 
         # Anexar el dataframe del archivo excel al dataframe general
         df = pd.concat([df, df_book], ignore_index=True)
