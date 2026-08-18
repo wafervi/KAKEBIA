@@ -6,11 +6,12 @@ from statsmodels.tsa.arima.model import ARIMA
 import plotly.graph_objects as go
 import shutil
 
+#- lectura del archivo CSV de datos procesados -
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR.parent / "data" / "processed"
 path = DATA_DIR / "kakebo_merged.csv"
 
-# Condicional 'if' para leer archivo .csv
+# -Condicional 'if' para leer archivo .csv-
 
 if path.exists():
     df = pd.read_csv(path, sep=";", encoding="utf-8")
@@ -41,7 +42,7 @@ df["MES_NUM"] = df["MES_NOMBRE"].map(mes_map)
 df["FECHA"] = pd.to_datetime(dict(year=df["AÑO"], month=df["MES_NUM"], day=1))
 df = df.sort_values("FECHA")
 
-# Entrenar SOLO con datos reales
+# Entrenar SOLO con datos reales -
 if "TIPO_DATO" in df.columns:
     train_df = df[df["TIPO_DATO"].astype(str).str.upper() == "REAL"].copy()
     if train_df.empty:
@@ -51,10 +52,10 @@ else:
 y = train_df.set_index("FECHA")["MONTO"].asfreq("MS")
 
 order = (1, 1, 1)
-model = ARIMA(y, order=order, enforce_stationarity=False, enforce_invertibility=False)
+model = ARIMA(y, order=order, enforce_stationarity=False, enforce_invertibility=False) #modelo ARTIMA aplicado a la serie de tiempo
 res = model.fit()
 
-steps = 3
+steps = 3 # SON LAS PREDICCIONES QUE SE QUIEREN HACER, EN ESTE CASO 3 MESES ADELANTE
 forecast_res = res.get_forecast(steps=steps)
 
 yhat = forecast_res.predicted_mean #uso de la media para hacer las predicciones
@@ -80,7 +81,7 @@ pred_out = pd.DataFrame({
 
 out = pd.concat([hist_out, pred_out], ignore_index=True).sort_values("fecha")
 
-# Opcional: formatear fecha YYYY-MM-DD
+# Opcional: formatear fecha YYYY-MM-DD ,para luego exportar a CSV y que sea más legible en el archivo de salida
 out["fecha"] = out["fecha"].dt.strftime("%Y-%m-%d")
 
 out_path = DATA_DIR / "kakebo_pred_hist.csv"
@@ -89,6 +90,8 @@ out.to_csv(out_path, index=False, encoding="utf-8")
 print(f"Archivo exportado: {out_path}")
 print(out.tail(15).to_string(index=False))
 
+
+#exportar todos los datos, a un archivo .html
 DASHBOARD_DIR = BASE_DIR.parent / "dashboards/HTML"
 DASHBOARD_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -133,7 +136,7 @@ fig.update_layout(
     hovermode="x unified"
 )
 
-# - EXPORTAR EL ARCHIVO A LA CARPETA DEL DASHBOARD DE REDOHIS -
+# - EXPORTAR EL ARCHIVO A FORMATO .html
 html_path = DASHBOARD_DIR / "arima_forecast.html"
 fig.write_html(html_path)
 print(f"Gráfico exportado a: {html_path}")
@@ -148,7 +151,3 @@ except FileNotFoundError:
     print(f"No se pudo copiar a REDOHIS porque la ruta no existe: {redohis_output.parent}")
 
 fig.show()
-
-
-# - Envío copia a la carpeta del proyecto REDOHIS -
-
