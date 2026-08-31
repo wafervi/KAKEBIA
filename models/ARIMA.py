@@ -6,7 +6,7 @@ from statsmodels.tsa.arima.model import ARIMA
 import plotly.graph_objects as go
 import shutil
 
-#- lectura del archivo CSV de datos procesados -
+#- lectura del archivo CSV de datos procesados llamandolo 'BASE_DIR' -
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR.parent / "data" / "processed"
 path = DATA_DIR / "kakebo_merged.csv"
@@ -17,11 +17,13 @@ if path.exists():
     df = pd.read_csv(path, sep=";", encoding="utf-8")
     print(f"Nota: El archivo '{path}' fue cargado exitosamente.")
 else:
-    raise FileNotFoundError(f"Error: No se encontró el archivo '{path}'.")
+    raise FileNotFoundError(f"Error: No se encontró el archivo '{path}'.") #gestión de error.
 
 df.columns = [c.strip().upper() for c in df.columns]
 
-def parse_monto(x):
+# - se procede con parsear (ORGANIZAR CRONOLÓGICAMENTE) el set de datos refinado - 
+
+def parse_monto(x): # Define una función para convertir valores de monto a número float (flotante)
     if pd.isna(x):
         return np.nan
     s = str(x).strip()
@@ -29,7 +31,7 @@ def parse_monto(x):
     s = s.replace(",", ".")     # decimal
     return float(s)
 
-df["MONTO"] = df["MONTO"].apply(parse_monto)
+df["MONTO"] = df["MONTO"].apply(parse_monto) #aplicar la función a cada de monto
 
 df["MES_NOMBRE"] = df["MES"].astype(str).str.replace("MES", "", regex=False).str.strip().str.upper()
 
@@ -40,7 +42,7 @@ mes_map = {
 }
 df["MES_NUM"] = df["MES_NOMBRE"].map(mes_map)
 df["FECHA"] = pd.to_datetime(dict(year=df["AÑO"], month=df["MES_NUM"], day=1))
-df = df.sort_values("FECHA")
+df = df.sort_values("FECHA") # se ordena el DataFrame por fecha en orden ascendente
 
 # Entrenar SOLO con datos reales -
 if "TIPO_DATO" in df.columns:

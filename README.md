@@ -2,10 +2,12 @@
 
 -------------------------------------------------------------------------------------------------
 
-
+## Dasboard de los datos en PowerBI
 
 <img width="1326" height="741" alt="Captura de pantalla 2026-02-25 174244" src="https://github.com/user-attachments/assets/df4216b2-b540-4219-ac1a-9b6a39b5cde7" />
 
+
+## Dashboard de los datos integrados en el aplicativo [REDOHIS](https://github.com/wafervi/REDOHIS)
 
 <img width="1280" height="698" alt="1772750799285" src="https://github.com/user-attachments/assets/94027dbf-6fd4-406f-a677-3314f770a8ff" />
 
