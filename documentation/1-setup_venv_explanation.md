@@ -1,142 +1,82 @@
-# Configuración del Entorno Virtual - KAKEBIA
+# Configuración del entorno virtual
 
-## Proyecto: Kakebo Analytics - Análisis de Gastos del Hogar
+## Requisitos
 
-### Fecha de Configuración: 20 de febrero de 2026
+- Windows con PowerShell o CMD.
+- Python 3.13.x.
+- El repositorio clonado localmente.
 
----
+Los datos de `data/raw/`, el archivo `.env` y otros archivos locales no se versionan. Una clonación limpia requiere restaurarlos por separado, mediante DVC cuando corresponda.
 
-## 📦 Entorno Virtual Creado
+## Crear y activar `.venv`
 
-Se ha configurado exitosamente un entorno virtual para el proyecto KAKEBIA con las siguientes características:
-
-- **Tipo de Entorno**: Virtual Environment (.venv)
-- **Versión de Python**: 3.13.0
-- **Ubicación**: `.venv/` en el directorio raíz del proyecto
-
----
-
-## 🔧 Pasos Realizados
-
-### 1. Creación del Entorno Virtual
+Desde la raíz de `KAKEBIA`:
 
 ```powershell
-python -m venv venv
-```
-
-### 2. Activación del Entorno Virtual
-
-```powershell
-.\venv\Scripts\Activate.ps1
-```
-
-### 3. Instalación de Dependencias
-
-Todas las dependencias del archivo `requirements.txt` fueron instaladas exitosamente.
-
----
-
-## 📚 Librerías Instaladas
-
-| Librería | Versión | Propósito |
-|----------|---------|-----------|
-| **pandas** | 2.2.3 | Manipulación y análisis de datos |
-| **numpy** | 2.2.0 | Operaciones numéricas |
-| **plotly** | 5.24.1 | Visualización interactiva de datos |
-| **statsmodels** | 0.14.4 | Modelos estadísticos y series temporales (ARIMA) |
-| **openai** | 1.90.0 | Integración con la API de OpenAI |
-| **openpyxl** | 3.1.5 | Lectura/escritura de archivos Excel |
-| **python-dotenv** | 1.1.0 | Gestión de variables de entorno |
-
----
-
-## 🚀 Uso del Entorno Virtual
-
-### Activar el Entorno Virtual
-
-En **PowerShell**:
-```powershell
+python -m venv .venv
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 .\.venv\Scripts\Activate.ps1
 ```
 
-En **CMD**:
+En CMD:
+
 ```cmd
 .venv\Scripts\activate.bat
 ```
 
-### Desactivar el Entorno Virtual
+Para salir del entorno:
 
 ```powershell
 deactivate
 ```
 
-### Instalar Nuevas Dependencias
+## Instalar dependencias
 
 ```powershell
-pip install nombre-paquete
+python -m pip install --upgrade pip
+python -m pip install -r documentation\requirements.txt
 ```
 
-### Actualizar requirements.txt
+Las dependencias fijadas incluyen pandas 2.2.3, numpy 2.2.0, plotly 5.24.1, statsmodels 0.14.4, openai 1.90.0, openpyxl 3.1.5 y python-dotenv 1.1.0.
 
-Después de instalar nuevas dependencias:
-```powershell
-pip freeze > requirements.txt
-```
-
----
-
-## 📝 Notas Importantes
-
-1. **Siempre activa el entorno virtual** antes de ejecutar scripts o notebooks del proyecto.
-2. El entorno virtual está configurado para usar **Python 3.13.0**.
-3. Las variables de entorno sensibles (como `OPENAI_API_KEY`) deben configurarse en un archivo `.env`.
-4. El directorio `.venv/` debe estar incluido en `.gitignore` para no subir el entorno virtual al repositorio.
-
----
-
-## 🔍 Verificación de la Instalación
-
-Para verificar que todas las librerías están correctamente instaladas:
-
-```powershell
-pip list
-```
-
-Para verificar la versión de Python:
+Verificar la instalación:
 
 ```powershell
 python --version
+python -m pip list
 ```
 
----
+## Variables de entorno
 
-## ⚙️ Comando para Ejecutar Python
+Crear `.env` en la raíz del repositorio:
 
-Cuando el entorno virtual está activado, puedes ejecutar scripts directamente:
+```text
+OPENAI_API_KEY=tu_clave_de_openai
+```
+
+No incluir la clave en Git, documentación, notebooks ni capturas. `pipelines/functions.py` carga `.env` usando una ruta relativa, por lo que el pipeline ETL debe ejecutarse desde la raíz del proyecto.
+
+## Comandos principales
+
+Pipeline ETL:
 
 ```powershell
-python pipelines/main.py
+python pipelines\combinator.py
 ```
 
-O de manera explícita usando la ruta completa:
+Modelo ARIMA y dashboard:
 
 ```powershell
-"KAKEBIA/.venv/Scripts/python.exe" pipelines/main.py
+python models\ARIMA.py
 ```
 
----
+Notebook: abrir `notebooks/ARIMA (KAKEBIA).ipynb` con el intérprete `.venv` y ejecutar las celdas en orden.
 
-## ✅ Estado del Proyecto
+## Actualizar dependencias
 
-- ✅ Entorno virtual creado
-- ✅ Python 3.13.0 configurado
-- ✅ Todas las dependencias instaladas
-- ✅ Proyecto listo para desarrollo y ejecución
+```powershell
+python -m pip install nombre-paquete
+python -m pip freeze | Out-File -Encoding utf8 documentation\requirements.txt
+```
 
----
-
-**Elaborado por**: Wagner Fernández V.  
-**Especialista en Ciencia de Datos y Analítica**
----
-
-*Documentación generada en marzo de 2026*
+*Actualizado: 2 de septiembre de 2026.*

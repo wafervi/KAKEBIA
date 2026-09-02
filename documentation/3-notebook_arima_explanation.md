@@ -1,128 +1,56 @@
-# Explicación del Notebook ARIMA (KAKEBIA)
+# Modelo ARIMA y notebook
 
-## Descripción General
+El proyecto ofrece dos formas de ejecutar el pronóstico: el notebook histórico `notebooks/ARIMA (KAKEBIA).ipynb` y el script reproducible `models/ARIMA.py`. Ambos usan un modelo ARIMA(1,1,1), pero el script es el punto de entrada actual para ejecución directa.
 
-Este notebook implementa un modelo **ARIMA** (AutoRegressive Integrated Moving Average) para pronosticar gastos mensuales basados en el método **Kakebo** (sistema japonés de control de gastos personales).
+## Datos de entrada
 
-## Estructura del Notebook
+El script carga `data/processed/kakebo_merged.csv` con separador `;`. El archivo debe contener al menos `MES`, `MONTO` y `AÑO`; si existe `TIPO_DATO`, solo los registros con valor `REAL` se usan para entrenar.
 
-### 1. Importación de Librerías
+El script resuelve las rutas a partir de su propia ubicación, por lo que puede ejecutarse desde cualquier directorio:
 
-**Celdas:** 1-3
+```powershell
+python models\ARIMA.py
+```
 
-**Librerías utilizadas:**
-- `pandas` y `numpy`: para manejo y procesamiento de datos
-- `statsmodels.tsa.arima.model`: para la implementación del modelo ARIMA
-- `plotly.graph_objects`: para visualizaciones interactivas
+## Preparación
 
-### 2. Carga y Limpieza de Datos
+1. Normaliza los nombres de columnas a mayúsculas.
+2. Convierte montos colombianos, eliminando puntos de miles y cambiando la coma decimal por punto.
+3. Convierte nombres de meses a números, incluyendo `SEPTIEMBRE` y `SETIEMBRE`.
+4. Crea `FECHA` usando el primer día de cada mes y ordena cronológicamente.
+5. Construye una serie mensual con frecuencia `MS`.
 
-**Celdas:** 4-8
+## Entrenamiento y pronóstico
 
-**Proceso:**
-- **Carga de datos:** Lee el archivo `../data/processed/kakebo_pred2.csv` con datos históricos de gastos
-- **Limpieza de columnas:** Normaliza nombres de columnas a mayúsculas
-- **Parseo de montos:** Maneja formato colombiano (puntos para miles, comas para decimales)
-  - Ejemplo: "1.500.000,50" → 1500000.50
-- **Conversión de fechas:** 
-  - Mapea nombres de meses a números
-  - Crea columna `FECHA` en formato datetime
-- **Filtrado de datos:** Selecciona solo registros con `TIPO_DATO == "REAL"` para el entrenamiento (excluye predicciones previas)
+El modelo se configura como:
 
-### 3. Entrenamiento del Modelo ARIMA
+```python
+ARIMA(y, order=(1, 1, 1),
+      enforce_stationarity=False,
+      enforce_invertibility=False)
+```
 
-**Celdas:** 9-10
+La configuración actual pronostica **3 meses** (`steps = 3`) y calcula intervalos de confianza del 95 %. No debe describirse como un pronóstico de 12 meses: ese valor aparece únicamente en metadatos antiguos del notebook.
 
-**Modelo implementado:** ARIMA(1,1,1)
+## Archivos generados
 
-**Parámetros:**
-- **p = 1**: Componente autoregresivo (usa 1 valor anterior)
-- **d = 1**: Diferenciación de primer orden (para lograr estacionaridad)
-- **q = 1**: Media móvil (considera 1 error anterior)
+El script escribe `data/processed/kakebo_pred_hist.csv`, con `fecha`, `monto`, `tipo_dato`, `lower_95` y `upper_95`, y `dashboards/HTML/arima_forecast.html`, un gráfico Plotly con histórico, predicción e intervalo de confianza.
 
-**Configuración adicional:**
-- `enforce_stationarity=False`: No fuerza estacionaridad estricta
-- `enforce_invertibility=False`: No fuerza invertibilidad estricta
+También intenta copiar el HTML a `C:\xampp\htdocs\REDOHIS\modules\dashboard\arima_forecast.html` cuando esa instalación local de REDOHIS existe. Esta copia es opcional y no reemplaza el archivo generado en `dashboards/HTML/`.
 
-### 4. Pronóstico a 12 Meses
+## Notebook
 
-**Celdas:** 11-12
+Para trabajar de forma interactiva:
 
-**Generación de predicciones:**
-- **Horizonte:** 12 meses futuros
-- **Método:** `get_forecast(steps=12)`
-- **Salidas:**
-  - `yhat`: Valores predichos (media)
-  - `ci`: Intervalo de confianza al 95% (límites inferior y superior)
+1. Seleccionar el intérprete `.venv` en VS Code.
+2. Abrir `notebooks/ARIMA (KAKEBIA).ipynb`.
+3. Ejecutar las celdas en orden.
+4. Comprobar la creación de `kakebo_pred_hist.csv` y `kakebo_pred_pbix.csv` en `data/processed/`.
 
-### 5. Exportación de Resultados
+El notebook conserva referencias históricas de Deepnote a `kakebo_pred2.csv` y a rutas relativas de ese entorno. Si se ejecuta localmente, usar como entrada `../data/processed/kakebo_merged.csv` y mantener las salidas dentro de `../data/processed/`.
 
-**Celdas:** 13-15
+## Salida para Power BI
 
-**Archivo generado:** `../data/processed/kakebo_pred_hist.csv`
+La última parte del notebook lee `kakebo_pred_hist.csv`, elimina `lower_95` y `upper_95`, renombra las columnas a `FECHA`, `MONTO` y `TIPO_DATO`, redondea `MONTO` y crea `MONTO_COP` con separador de miles mediante puntos. El resultado es `data/processed/kakebo_pred_pbix.csv`.
 
-**Estructura del archivo:**
-- `fecha`: Fecha en formato YYYY-MM-DD
-- `monto`: Valor histórico o predicho
-- `tipo_dato`: "REAL" o "PREDICCION"
-- `lower_95`: Límite inferior del IC 95% (solo predicciones)
-- `upper_95`: Límite superior del IC 95% (solo predicciones)
-
-**Contenido:** Combina datos históricos reales con las predicciones futuras
-
-### 6. Visualización de Resultados
-
-**Celdas:** 16-18
-
-**Tipo de gráfica:** Gráfica interactiva con Plotly
-
-**Elementos visuales:**
-- **Línea azul con marcadores:** Datos históricos reales
-- **Línea roja con marcadores:** Predicciones futuras
-- **Área morada (relleno):** Rango de incertidumbre - Intervalo de Confianza al 95%
-
-**Características:**
-- Título: "Predicciones de gastos KAKEBO 2026-2027"
-- Ejes: Fecha (X) vs Monto (Y)
-- Template: plotly_white
-- Modo hover: x unified (muestra todos los valores al pasar el cursor)
-
-**Interpretación del Intervalo de Confianza:**
-
-El área morada representa el rango donde se espera que estén los valores verdaderos con un 95% de confianza. El punto rojo es el valor estimado de gasto para cada mes.
-
-### 7. Formato para PowerBI
-
-**Celdas:** 19-21
-
-**Archivo generado:** `../data/processed/kakebo_pred_pbix.csv`
-
-**Transformaciones:**
-- Elimina columnas `lower_95` y `upper_95`
-- Renombra columnas a mayúsculas: `FECHA`, `MONTO`, `TIPO_DATO`
-- Redondea `MONTO` a enteros
-- Crea columna `MONTO_COP` con formato de pesos colombianos:
-  - Ejemplo: `$ 1.500.000` (sin la palabra "COP")
-  - Usa punto como separador de miles
-
-**Propósito:** Datos optimizados para visualización en dashboard de PowerBI
-
-## Objetivo Final
-
-Predecir los gastos mensuales futuros (2026-2027) basándose en patrones históricos del método Kakebo, proporcionando:
-- Estimaciones puntuales de gasto mensual
-- Rangos de confianza que cuantifican la incertidumbre
-- Datos formateados para análisis y visualización
-
-## Referencias
-
-- Fuente de apoyo: https://github.com/copilot/share/0a1e4036-40a0-84f6-b900-260a20a209e2
-- Notebook original creado en Deepnote
-
----
-
-**Elaborado por**: Wagner Fernández V.  
-**Especialista en Ciencia de Datos y Analítica**
----
-
-*Documentación generada en marzo de 2026*
+*Actualizado: 2 de septiembre de 2026.*

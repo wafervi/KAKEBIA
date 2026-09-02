@@ -1,129 +1,80 @@
-# Archivos .dvc - Documentación Técnica
+# Archivos DVC del proyecto
 
-## Descripción General
+## Qué es DVC
 
-Los archivos con extensión `.dvc` son archivos de metadatos generados por **DVC (Data Version Control)**, una herramienta de control de versiones diseñada específicamente para gestionar datasets y modelos de machine learning. Estos archivos actúan como punteros ligeros hacia los archivos de datos reales, permitiendo versionar datos de gran tamaño sin almacenarlos directamente en Git.
+DVC (Data Version Control) mantiene en Git pequeños descriptores `.dvc` y almacena el contenido de los datos en un remoto o caché direccionado por hash MD5. El hash permite detectar si el archivo recuperado coincide con la versión registrada.
 
-## Arquitectura y Funcionamiento
+## Descriptores actuales
 
-DVC implementa un sistema de almacenamiento basado en contenido direccionable (content-addressable storage) utilizando hashes MD5. Los archivos de datos reales se almacenan en la carpeta `.dvc/cache` o en un almacenamiento remoto configurado, mientras que los archivos `.dvc` contienen únicamente los metadatos necesarios para recuperarlos.
-
-## Estructura de Archivos .dvc
-
-Cada archivo `.dvc` es un descriptor YAML con la siguiente estructura:
+### `data/processed/kakebo_merged.csv.dvc`
 
 ```yaml
 outs:
-  - md5: <hash_md5_del_archivo>
-    size: <tamaño_en_bytes>
-    hash: md5
-    path: <ruta_relativa_al_archivo>
+- md5: 54cffeb0fd093df6fae3239444b3c179
+  size: 516
+  hash: md5
+  path: kakebo_merged.csv
 ```
 
-## Inventario de Archivos en el Proyecto
+Rastrea el CSV combinado que consume el modelo ARIMA.
 
-### 1. `kakebo_pred.csv.dvc`
+### `data/processed/kakebo_pred_pbix.csv.dvc`
 
 ```yaml
 outs:
-  - md5: 8392d0a11035bae6d7d7e3f42253040b
-    size: 491
-    hash: md5
-    path: kakebo_pred.csv
+- md5: e9e58fc31d2ed9a1563b491984e270ca
+  size: 904
+  hash: md5
+  path: kakebo_pred_pbix.csv
 ```
 
-**Propósito**: Rastrea el archivo de predicciones en formato simple que contiene datos históricos reales y una predicción para el siguiente mes.
+Rastrea el CSV preparado para Power BI.
 
-**Ubicación del contenido real**: `data versions/files/md5/83/92d0a11035bae6d7d7e3f42253040b`
+Los archivos `kakebo_pred.csv.dvc` y `kakebo_pred2.csv.dvc` descritos en versiones anteriores ya no forman parte del inventario actual. Tampoco existe un descriptor para `kakebo_pred_hist.csv`.
 
-**Tamaño**: 491 bytes
+## Remoto configurado
 
----
+La configuración versionada en `.dvc/config` contiene un remoto DVC de Google Drive y actualmente apunta a:
 
-### 2. `kakebo_pred2.csv.dvc`
-
-```yaml
-outs:
-  - md5: 8d113f045bf9b6ee7c6d9dbe9d792d03
-    size: 517
-    hash: md5
-    path: kakebo_pred2.csv
+```text
+../data versions
 ```
 
-**Propósito**: Rastrea el archivo de predicciones con formato colombiano (separadores de miles).
+La carpeta local `data versions/` contiene objetos organizados por los primeros dos caracteres del MD5:
 
-**Ubicación del contenido real**: `data versions/files/md5/8d/113f045bf9b6ee7c6d9dbe9d792d03`
-
-**Tamaño**: 517 bytes
-
----
-
-### 3. `kakebo_pred_pbix.csv.dvc`
-
-```yaml
-outs:
-  - md5: 73b29be7cba18fb1dc24698c27de26aa
-    size: 1069
-    hash: md5
-    path: kakebo_pred_pbix.csv
+```text
+data versions/files/md5/<primeros-2-caracteres>/<resto-del-hash>
 ```
 
-**Propósito**: Rastrea el archivo optimizado para visualización en Power BI, que incluye una columna adicional con formato de moneda colombiana.
+No confundir esta ubicación con `data/processed/`, que contiene las copias de trabajo usadas por los scripts.
 
-**Ubicación del contenido real**: `data versions/files/md5/73/b29be7cba18fb1dc24698c27de26aa`
+## Flujo operativo
 
-**Tamaño**: 1,069 bytes
+Instalar DVC en el entorno activo si aún no está disponible:
 
----
-
-## Almacenamiento en Caché
-
-Los archivos de datos rastreados por DVC se almacenan en la estructura de directorios `data versions/files/md5/`, organizados jerárquicamente utilizando los primeros dos caracteres del hash MD5 como subdirectorio. Esta estructura optimiza el acceso y previene la saturación de un único directorio con miles de archivos.
-
-**Patrón de almacenamiento**:
-```
-data versions/files/md5/<primeros_2_chars>/<resto_del_hash>
+```powershell
+python -m pip install dvc dvc-gdrive
 ```
 
-## Ventajas del Sistema de Versionado
+Recuperar los datos rastreados:
 
-1. **Eficiencia en Git**: Los archivos `.dvc` (≈100 bytes) se versionan en Git en lugar de los archivos de datos completos, reduciendo significativamente el tamaño del repositorio.
-
-2. **Integridad de Datos**: El hash MD5 garantiza la integridad del contenido. Cualquier modificación en el archivo de datos generará un hash diferente.
-
-3. **Trazabilidad**: Cada versión del modelo o dataset queda registrada con su hash único, permitiendo reproducibilidad total del pipeline.
-
-4. **Compatibilidad con CI/CD**: Los archivos `.dvc` permiten integrar pipelines de datos en flujos de integración continua sin transferir grandes volúmenes de información.
-
-## Workflows Operativos
-
-**Para recuperar los archivos de datos**:
-```bash
+```powershell
 dvc pull
 ```
 
-**Para actualizar el tracking después de modificar un archivo**:
-```bash
-dvc add data/processed/kakebo_pred.csv
+Actualizar un archivo rastreado después de regenerarlo:
+
+```powershell
+dvc add data/processed/kakebo_merged.csv
+dvc add data/processed/kakebo_pred_pbix.csv
 ```
 
-**Para versionar cambios**:
-```bash
-git add data/processed/kakebo_pred.csv.dvc
-git commit -m "Update predictions dataset"
-```
+Luego revisar los cambios en los `.dvc` y registrarlos en Git según el flujo del proyecto. `dvc add` actualiza el descriptor y el caché; no sustituye la confirmación de los cambios en Git.
 
-## Consideraciones Técnicas
+## Consideraciones
 
-- **Algoritmo de hash**: MD5 (suficiente para detección de cambios, no recomendado para seguridad criptográfica)
-- **Formato**: YAML
-- **Compatibilidad**: DVC 2.x o superior
-- **Dependencias**: Requiere DVC instalado en el entorno de desarrollo
+- MD5 se usa para integridad y detección de cambios, no para seguridad criptográfica.
+- `data/raw/` y `.env` son recursos locales sensibles o no versionados; DVC no reemplaza la configuración de la API de OpenAI.
+- Tras `dvc pull`, verificar que `data/processed/kakebo_merged.csv` exista antes de ejecutar `models/ARIMA.py`.
 
----
-
-**Elaborado por**: Wagner Fernández V.  
-**Especialista en Ciencia de Datos y Analítica**
----
-
-*Documentación generada en marzo de 2026*
+*Actualizado: 2 de septiembre de 2026.*
