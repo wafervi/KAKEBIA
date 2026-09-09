@@ -10,8 +10,8 @@ DVC (Data Version Control) mantiene en Git pequeños descriptores `.dvc` y almac
 
 ```yaml
 outs:
-- md5: 54cffeb0fd093df6fae3239444b3c179
-  size: 516
+- md5: 69c04bffeb485fddba4a058a3eeb72f5
+  size: 545
   hash: md5
   path: kakebo_merged.csv
 ```
@@ -34,7 +34,7 @@ Los archivos `kakebo_pred.csv.dvc` y `kakebo_pred2.csv.dvc` descritos en version
 
 ## Remoto configurado
 
-La configuración versionada en `.dvc/config` contiene un remoto DVC de Google Drive y actualmente apunta a:
+La configuración versionada en `.dvc/config` contiene referencias a remotos de Google Drive y rutas locales. La ruta local usada actualmente para el almacenamiento de objetos es:
 
 ```text
 ../data versions
@@ -46,7 +46,7 @@ La carpeta local `data versions/` contiene objetos organizados por los primeros 
 data versions/files/md5/<primeros-2-caracteres>/<resto-del-hash>
 ```
 
-No confundir esta ubicación con `data/processed/`, que contiene las copias de trabajo usadas por los scripts.
+No confundir esta ubicación con `data/processed/`, que contiene las copias de trabajo usadas por los scripts. Antes de compartir o publicar `.dvc/config`, comprobar que no incluya tokens, credenciales o URLs privadas; cualquier credencial expuesta debe revocarse y rotarse.
 
 ## Flujo operativo
 
@@ -77,4 +77,4 @@ Luego revisar los cambios en los `.dvc` y registrarlos en Git según el flujo de
 - `data/raw/` y `.env` son recursos locales sensibles o no versionados; DVC no reemplaza la configuración de la API de OpenAI.
 - Tras `dvc pull`, verificar que `data/processed/kakebo_merged.csv` exista antes de ejecutar `models/ARIMA.py`.
 
-*Actualizado: 2 de septiembre de 2026.*
+*Actualizado: 9 de septiembre de 2026.*

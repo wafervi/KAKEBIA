@@ -2,6 +2,10 @@
 
 El pipeline de `pipelines/` transforma archivos Excel del método Kakebo en CSV listos para análisis y pronóstico. El punto de entrada actual es `pipelines/combinator.py`; no existe `pipelines/main.py`.
 
+## Estado actual y limitación conocida
+
+En el estado actual del repositorio, `data/raw/` contiene `KAKEBO2025.xlsx` y `KAKEBO2026.xlsx` directamente, sin subcarpetas de facturas. Además, `pipelines/functions.py` devuelve las columnas `mes`, `no_de_mes` y `monto`, mientras que `combinator.py` intenta aplicar una conversión sobre `moneda` e `importe` antes de cargar `KAKEBO2025.xlsx`. Por estas dos razones, la ejecución actual puede terminar con `KeyError` y no debe considerarse un flujo ETL reproducible hasta que se corrija el código o se prepare una entrada compatible.
+
 ## Módulos
 
 ### `pipelines/functions.py`
@@ -16,7 +20,7 @@ Define el formato esperado por el modelo: `mes;no_de_mes;monto`, meses en españ
 
 ## Entrada requerida
 
-El script recorre únicamente directorios dentro de `data/raw/`; los archivos Excel sueltos en la raíz de `data/raw/` se ignoran en la primera fase. La estructura esperada es:
+El script recorre únicamente directorios dentro de `data/raw/`; los archivos Excel sueltos en la raíz de `data/raw/` se ignoran en la primera fase. La estructura que el código espera es:
 
 ```text
 data/raw/
@@ -35,7 +39,7 @@ Además, deben existir `KAKEBO2025.xlsx` con la hoja `3-TOTAL GASTOS Y SSPP`, `K
 1. Recorre las subcarpetas de `data/raw/` en orden.
 2. Lee cada archivo y solicita a OpenAI una tabla CSV estructurada.
 3. Convierte la respuesta a DataFrame y concatena los resultados.
-4. Convierte a euros los registros cuya moneda sea `pesos`, usando `0.00024`.
+4. Intenta convertir a euros los registros cuya moneda sea `pesos`, usando `0.00024`. Esta operación requiere columnas `moneda` e `importe`, que no son producidas actualmente por `functions.py`.
 5. Agrega la hoja `3-TOTAL GASTOS Y SSPP` de `KAKEBO2025.xlsx`.
 6. Escribe `data/processed/KAKEBO2025.csv` con separador `;`.
 
@@ -59,10 +63,10 @@ Desde la raíz del repositorio y con `.venv` activo:
 python pipelines\combinator.py
 ```
 
-El proceso requiere acceso a la API de OpenAI para la fase de extracción. Después de ejecutarlo, verificar los tres CSV en `data/processed/` antes de ejecutar el modelo ARIMA.
+El proceso requiere acceso a la API de OpenAI para la fase de extracción. Con el estado actual del código, la ejecución puede fallar antes de generar los CSV; verificar y corregir la incompatibilidad indicada arriba antes de usar estas salidas.
 
 ## Relación con el modelo
 
 `models/ARIMA.py` consume `data/processed/kakebo_merged.csv`, entrena un ARIMA(1,1,1) con los registros reales y genera las predicciones y el HTML descritos en la documentación del modelo.
 
-*Actualizado: 2 de septiembre de 2026.*
+*Actualizado: 9 de septiembre de 2026.*

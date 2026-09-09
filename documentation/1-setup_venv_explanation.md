@@ -3,7 +3,7 @@
 ## Requisitos
 
 - Windows con PowerShell o CMD.
-- Python 3.13.x.
+- Python 3.13.0, que es la versión usada por el entorno actual.
 - El repositorio clonado localmente.
 
 Los datos de `data/raw/`, el archivo `.env` y otros archivos locales no se versionan. Una clonación limpia requiere restaurarlos por separado, mediante DVC cuando corresponda.
@@ -37,7 +37,11 @@ python -m pip install --upgrade pip
 python -m pip install -r documentation\requirements.txt
 ```
 
-Las dependencias fijadas incluyen pandas 2.2.3, numpy 2.2.0, plotly 5.24.1, statsmodels 0.14.4, openai 1.90.0, openpyxl 3.1.5 y python-dotenv 1.1.0.
+Las dependencias fijadas incluyen pandas 2.2.3, numpy 2.2.0, plotly 5.24.1, statsmodels 0.14.4, openai 1.90.0, openpyxl 3.1.5 y python-dotenv 1.1.0. La aplicación Streamlit requiere instalar adicionalmente `streamlit`, porque todavía no está incluido en `documentation/requirements.txt`.
+
+```powershell
+python -m pip install streamlit
+```
 
 Verificar la instalación:
 
@@ -70,6 +74,14 @@ Modelo ARIMA y dashboard:
 python models\ARIMA.py
 ```
 
+Aplicación interactiva Streamlit:
+
+```powershell
+streamlit run app\KAKEBIA.py
+```
+
+La aplicación lee `data/processed/kakebo_pred_hist.csv`; ese archivo debe existir antes de iniciarla.
+
 Notebook: abrir `notebooks/ARIMA (KAKEBIA).ipynb` con el intérprete `.venv` y ejecutar las celdas en orden.
 
 ## Actualizar dependencias
@@ -79,4 +91,4 @@ python -m pip install nombre-paquete
 python -m pip freeze | Out-File -Encoding utf8 documentation\requirements.txt
 ```
 
-*Actualizado: 2 de septiembre de 2026.*
+*Actualizado: 9 de septiembre de 2026.*

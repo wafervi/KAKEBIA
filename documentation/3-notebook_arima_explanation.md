@@ -36,6 +36,8 @@ La configuración actual pronostica **3 meses** (`steps = 3`) y calcula interval
 
 El script escribe `data/processed/kakebo_pred_hist.csv`, con `fecha`, `monto`, `tipo_dato`, `lower_95` y `upper_95`, y `dashboards/HTML/arima_forecast.html`, un gráfico Plotly con histórico, predicción e intervalo de confianza.
 
+La aplicación `app/KAKEBIA.py` consume directamente `data/processed/kakebo_pred_hist.csv`. Se inicia con `streamlit run app\KAKEBIA.py` y muestra filtros por tipo de dato y año, un KPI del total, una serie temporal, una tabla consolidada y un gráfico de distribución mensual.
+
 También intenta copiar el HTML a `C:\xampp\htdocs\REDOHIS\modules\dashboard\arima_forecast.html` cuando esa instalación local de REDOHIS existe. Esta copia es opcional y no reemplaza el archivo generado en `dashboards/HTML/`.
 
 ## Notebook
@@ -47,10 +49,10 @@ Para trabajar de forma interactiva:
 3. Ejecutar las celdas en orden.
 4. Comprobar la creación de `kakebo_pred_hist.csv` y `kakebo_pred_pbix.csv` en `data/processed/`.
 
-El notebook conserva referencias históricas de Deepnote a `kakebo_pred2.csv` y a rutas relativas de ese entorno. Si se ejecuta localmente, usar como entrada `../data/processed/kakebo_merged.csv` y mantener las salidas dentro de `../data/processed/`.
+El notebook conserva referencias históricas de Deepnote a `kakebo_pred2.csv` y a rutas relativas de ese entorno. Si se ejecuta localmente, usar como entrada `../data/processed/kakebo_merged.csv` y mantener las salidas dentro de `../data/processed/`. El notebook genera el HTML en una ruta distinta a la del script: `../dashboards/arima_forecast.html`; el script actual usa `dashboards/HTML/arima_forecast.html`.
 
 ## Salida para Power BI
 
 La última parte del notebook lee `kakebo_pred_hist.csv`, elimina `lower_95` y `upper_95`, renombra las columnas a `FECHA`, `MONTO` y `TIPO_DATO`, redondea `MONTO` y crea `MONTO_COP` con separador de miles mediante puntos. El resultado es `data/processed/kakebo_pred_pbix.csv`.
 
-*Actualizado: 2 de septiembre de 2026.*
+*Actualizado: 9 de septiembre de 2026.*
