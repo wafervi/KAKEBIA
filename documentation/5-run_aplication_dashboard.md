@@ -27,7 +27,7 @@ data\processed\kakebo_pred_hist.csv
 Abrir PowerShell y ubicarse en la carpeta raíz del proyecto:
 
 ```powershell
-cd "C:\Users\WAGNER FERNÁNDEZ\OneDrive - POLICIA NACIONAL DE COLOMBIA\Documents\Ciencia de Datos\PROYECTOS\KAKEBIA"
+cd "C:\UBICACIÓN DEL ARCHIVO EN TU PC\KAKEBIA"
 ```
 
 Ejecutar Streamlit usando el intérprete del entorno virtual:
@@ -101,7 +101,9 @@ En ese caso, abrir:
 http://localhost:8502
 ```
 
-## Resumen rápido
+## Resumen rápido (Ejemplo)
+
+Para iniciar desde la consola de comandos:
 
 ```powershell
 cd "C:\Users\WAGNER FERNÁNDEZ\OneDrive - POLICIA NACIONAL DE COLOMBIA\Documents\Ciencia de Datos\PROYECTOS\KAKEBIA"
