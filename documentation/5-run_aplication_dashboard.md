@@ -103,7 +103,7 @@ http://localhost:8502
 
 ## Resumen rápido (Ejemplo)
 
-Para iniciar desde la consola de comandos:
+Para iniciar la aplicación (Dashboard) desde la consola de comandos:
 
 ```powershell
 cd "C:\Users\WAGNER FERNÁNDEZ\OneDrive - POLICIA NACIONAL DE COLOMBIA\Documents\Ciencia de Datos\PROYECTOS\KAKEBIA"
