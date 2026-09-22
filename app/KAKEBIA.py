@@ -189,6 +189,44 @@ with col2:
         color_discrete_map={'REAL': '#24a8ff', 'PREDICCION': '#ff9f43'},
         markers=True
     )
+    # Seleccionar los límites del IC 95% únicamente para las predicciones.
+    prediction_band = (
+        df_filtered[
+            (df_filtered['tipo_dato'] == 'PREDICCION')
+            & df_filtered['lower_95'].notna()
+            & df_filtered['upper_95'].notna()
+        ]
+        .sort_values('fecha_dt')
+    )
+    if not prediction_band.empty:
+        # Dibujar primero el límite inferior para usarlo como base de la franja.
+        fig_line.add_trace(go.Scatter(
+            x=prediction_band['fecha'],
+            y=prediction_band['lower_95'],
+            mode='lines',
+            line=dict(width=0),
+            hoverinfo='skip',
+            showlegend=False,
+            name='Límite inferior (95%)'
+        ))
+        # Rellenar el área entre el límite inferior y el límite superior.
+        fig_line.add_trace(go.Scatter(
+            x=prediction_band['fecha'],
+            y=prediction_band['upper_95'],
+            mode='lines',
+            line=dict(width=0),
+            fill='tonexty',  # Extender el relleno hasta la traza anterior.
+            fillcolor='rgba(255, 159, 67, 0.25)',
+            name='Intervalo de confianza (95%)',
+            hovertemplate='IC 95%: %{y:,.0f} COP<extra></extra>'
+        ))
+        for trace in fig_line.data:
+            if trace.name in ('REAL', 'PREDICCION'):
+                trace.update(legendrank=1)
+            elif trace.name == 'Límite inferior (95%)':
+                trace.update(legendrank=3)
+            elif trace.name == 'Intervalo de confianza (95%)':
+                trace.update(legendrank=2)
     fig_line.update_layout(
         xaxis_title="Año",
         yaxis_title="Monto (COP)",
